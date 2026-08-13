@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NAMAS-CARE 개인정보처리방침</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #222; }
+  h1 { font-size: 1.6em; border-bottom: 2px solid #222; padding-bottom: 10px; }
+  h2 { font-size: 1.2em; margin-top: 2em; }
+  .updated { color: #666; font-size: 0.9em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+  th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; font-size: 0.95em; vertical-align: top; }
+  th { background: #f5f5f5; }
+  .warn { background: #fff4e5; border-left: 4px solid #e69500; padding: 10px 14px; margin: 1em 0; }
+  .lang { color: #888; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<h1>NAMAS-CARE 개인정보처리방침</h1>
+<p class="updated">최종 업데이트: 2026-08-12</p>
+
+<p>NAMAS-CARE(CApture &amp; REport, 이하 "확장")는 브라우저에서 발생한 오류·증상을 재현·전달하기
+위한 화면 캡처/로그 수집 도구입니다. 이 문서는 확장이 어떤 데이터를 다루고, 어디에 저장하며,
+어디로 전송되는지(또는 전송되지 않는지)를 설명합니다.</p>
+
+<h2>1. 서버로 전송되는 데이터: 없음</h2>
+<p>이 확장은 <b>백엔드 서버가 없습니다.</b> 모든 캡처 데이터는 사용자의 브라우저 안,
+<code>IndexedDB</code>(로컬 저장소)에만 저장되며, 확장 밖으로 전송되지 않습니다. 데이터를
+꺼내려면 사용자가 직접 "내보내기" 버튼을 눌러 ZIP 또는 HTML 파일로 <b>수동 다운로드</b>해야
+합니다 — 자동 업로드나 원격 동기화 기능은 없습니다.</p>
+
+<h2>2. 수집하는 데이터</h2>
+<p>사용자가 사이드패널에서 <b>수집을 시작한 이후부터</b>만 아래 데이터를 모읍니다(상시 수집
+아님):</p>
+<table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>화면 스냅샷</td><td>클릭·오류 발생·페이지 전환 등 트리거 시점에 현재 탭을 캡처한
+  이미지(WebP). 저장 전 아래 3항의 마스킹이 적용됩니다.</td></tr>
+<tr><td>이벤트 로그</td><td>클릭·스크롤·입력 등 사용자 조작 요약(좌표·대상 요소의 태그/역할
+  등). 입력창의 실제 입력값은 저장하지 않습니다.</td></tr>
+<tr><td>콘솔 로그</td><td>페이지의 <code>console.log/warn/error</code> 출력, 처리되지 않은
+  JS 예외 및 Promise 거부.</td></tr>
+<tr><td>네트워크 로그</td><td>페이지가 발생시킨 요청의 URL·메서드·상태코드·헤더·(옵션 시)
+  응답 본문.</td></tr>
+<tr><td>화면 녹화(선택)</td><td>사용자가 명시적으로 켰을 때만 <code>getDisplayMedia</code>로
+  기록되는 영상(webm).</td></tr>
+</table>
+
+<h2>3. 개인정보 마스킹</h2>
+<p>화면 스냅샷에는 저장 전 자동 마스킹이 적용됩니다: 비밀번호 입력창은 항상 가려지고, 그 외
+텍스트는 이름·전화번호·이메일 등 패턴에 걸리는 부분을 가립니다. 마스킹 강도는 옵션 페이지에서
+조정할 수 있습니다.</p>
+<div class="warn">
+<b>예외: 화면 녹화(2항의 마지막 행)에는 마스킹이 적용되지 않습니다.</b> 녹화를 켜면 화면에
+보이는 그대로(개인정보 포함) 저장되며, 확장은 녹화 시작 시 이 점을 사용자에게 별도로
+고지합니다. 자동 마스킹은 최선의 노력(best-effort) 방식으로, 완벽을 보장하지 않습니다 —
+민감한 화면에서는 사용자가 직접 확인 후 편집기로 추가 마스킹하거나 내보내기 전 삭제할 것을
+권장합니다.
+</div>
+
+<h2>4. 데이터 보관·삭제</h2>
+<ul>
+<li>모든 데이터는 브라우저 로컬 저장소에만 남고, 7일이 지난 기록은 자동으로 삭제됩니다.</li>
+<li>사용자는 언제든 기록을 개별 선택해 즉시 삭제할 수 있습니다.</li>
+<li>확장을 제거하면 <code>IndexedDB</code>에 저장된 모든 데이터가 브라우저에 의해 함께
+  삭제됩니다.</li>
+</ul>
+
+<h2>5. 제3자 제공</h2>
+<p>이 확장은 어떤 제3자에게도 데이터를 제공·판매·공유하지 않습니다. 광고·분석·트래킹 SDK를
+포함하지 않습니다.</p>
+
+<h2>6. 권한 사용 목적</h2>
+<p>확장이 요청하는 각 브라우저 권한이 실제로 어디에 쓰이는지는 별도 문서
+(권한 정당화, permission-justification)에 항목별로 설명되어 있습니다.</p>
+
+<h2>7. 문의</h2>
+<p>이 방침이나 확장의 데이터 처리에 대해 문의할 사항이 있으면 아래 연락처로 문의해 주세요.</p>
+<p><b>담당:</b> [회사/부서명 기입] &nbsp;·&nbsp; <b>이메일:</b> [연락처 이메일 기입]</p>
+
+<hr />
+<p class="lang"><i>English summary: NAMAS-CARE is a browser-troubleshooting capture tool with
+no backend server. All captured data (screenshots, console/network logs, optional screen
+recording) is stored only in the browser's local IndexedDB and never transmitted anywhere
+automatically; export is a manual, user-initiated file download. Screenshots are
+automatically masked for common PII patterns before being saved; screen recordings are
+explicitly NOT masked, and the extension warns users of this before recording starts.
+Records older than 7 days are auto-deleted. No data is shared with third parties.</i></p>
+
+</body>
+</html>
